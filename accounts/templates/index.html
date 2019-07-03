@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block page-title %}Home page{% endblock %}
+
+{% block content %}
+<div id="hero-form" class="container-fluid">
+    {% if user.is_authenticated %}
+    <div class="jumbotron">
+        <h1 class="jumbo-common display-4">Welcome to BugsHunters, {{ request.user.username }}</h1>
+            <p class="jumbo-common-p lead">Hope You had a wonderful time. Happy to see you again!</p>
+    </div>
+    {% else %}
+    <div class="jumbotron">
+        <h1 class="jumbo-common display-4">Welcome to BugsHunters, Guest</h1>
+            <p class="jumbo-common-p lead">You came to right place. Here in our friendly community we share coding issues and eliminate them.</p>
+            <p class="jumbo-common-p lead">Sounds good? Then join us now!</p>
+        <hr class="my-4">
+        <button class="btn btm-common-class btn-customised"><a style="color: #ffffff" class="common-link-class" href="{% url 'registration' %}">Sign up</a></button>
+        <button class="btn btm-common-class btn-customised"><a style="color: #ffffff" class="common-link-class" href="{% url 'login' %}">Login</a></button>
+    </div>
+    {% endif %}
+</div>
+
+{% include 'about_us.html' %}
+{% include 'newest_feature.html' %}
+{% include 'newest_bugs.html' %}
+{% endblock %}

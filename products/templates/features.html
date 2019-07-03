@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block page-title %}Features{% endblock %}
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+{% include 'newest_feature.html' %}
+
+<div class="container-fluid">
+    <div class="row">
+        {% for feature in features %}
+            <div class="feature-main">
+                    <div class="feature-pic" style="background-image: url('{{ MEDIA_URL }}{{ feature.image }}')">
+                        <h1 style="margin-left: 10px;"><strong>{{ feature.name }}</strong></h1>
+                        <p style="margin-left: 10px;">Price EUR: {{ feature.price }}</p>
+                            <div class="container-fluid product-description">
+                                <form method="POST" action="{% url 'add_to_cart' feature.id %}">
+                                    {% csrf_token %}
+                                    <p class="feature-price" style="color: #000000;">Quantity: <input class="text-center item_add" name="quantity" type="number" min="1" value="1"/>
+                                    <button class="btn-add" type="submit"><strong>+</strong></button>
+                                    </p>
+                                </form>
+                                <p class="text-justify product-description" style="color: #000000;">{{ feature.description|truncatewords:30 }}
+                                    <button class="btn-read-more">
+                                        <a class="common-link-class" href="{% url 'feature_detail' feature.id %}">Read more</a>
+                                    </button>
+                                </p>
+                            </div>
+                    </div>
+             </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

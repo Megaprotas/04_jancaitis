@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block page-title %}Edit Profile{% endblock %}
+
+{% block feature %}
+<div>
+    <<form method="post">
+  {% csrf_token %}
+  {{ user_form }}
+  {{ profile_form }}
+  <button type="submit">Update</button>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block page-title %}{{user}}{% endblock %}
+
+{% block content %}
+<div id="hero-form" class="container-fluid">
+    {% block page-heading %}<h3 class="page-heading">Your profile</h3>{% endblock %}
+
+    <div id="form-background">
+        <img class="profile-pic" src="{{ user.profile.image.url }}">
+        <p><strong>User:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Status:</strong> {{ user.profile.status }}</p>
+        <p><strong>Desription:</strong> {{ user.profile.description }}</p>
+        <p><strong>Country:</strong> {{ user.profile.country }}</p>
+        <p><strong>Website:</strong> {{ user.profile.website }}</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ user_form }}
+            {{ profile_form }}
+            <button class="btn btn-bugs btn-primary" type="submit" disabled>Update</button>
+        </form>
+    </div>
+</div>
+
+{% include 'about_us.html' %}
+{% include 'newest_feature.html' %}
+{% include 'newest_bugs.html' %}
+{% endblock %}

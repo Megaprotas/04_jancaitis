@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block page-title %}Register{% endblock %}
+
+{% block content %}
+<div id="hero-form" class="container-fluid">
+    {% block page-heading %}<h3 class="page-heading">Register An Account</h3>{% endblock %}
+    <div id="form-background">
+        <form method="POST">
+            {% csrf_token %}
+            {{ registration_form | as_bootstrap }}
+            <button class="btn btm-common-class btn-primary" type="submit">Sign Up</button>
+        </form>
+        <p>Have an account? <a class="common-link-class" href="{% url 'login' %}">Login</a></p>
+    </div>
+    <div class="hero-mini-form d-none d-sm-block  col-md-6 offset-md-6">
+        <h1>Here You will find:</h1>
+            <ul>
+                <li>Bug solving community who's always ready to help</li>
+                <li>Product features for sale and improvement of You project</li>
+                <li>Blog post and reviews on a latest trends</li>
+                <li>Any suggestion? Let's here YOU out!</li>
+                <li>Check our statistics: <a class="front-link" href="/bugfix/graph">HERE</a></li>
+            </ul>
+    </div>
+</div>
+
+{% include 'about_us.html' %}
+{% include 'newest_feature.html' %}
+{% include 'newest_bugs.html' %}
+{% endblock %}

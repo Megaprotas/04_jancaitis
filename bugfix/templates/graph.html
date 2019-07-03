@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+{% block page-title %}Bugs{% endblock %}
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-9 offset-md-1" style="margin-top: 10px;">
+            <p class="text-justify">Best way to prove efficiency is statistics. Here is some from us:
+                here we display most important data - bugs posted, fixed, and in process. We always stream for quality not just quantity, buuut
+                we manage to win anyway.
+            </p>
+        </div>
+
+            <canvas id="Bug-status-bar" class="col-xs-12 col-md-5 offset-md-1"></canvas>
+            <canvas id="Bug-status-pie" class="col-xs-12 col-md-5"></canvas>
+
+        <div class="col-xs-12 col-md-9 offset-md-1" style="margin-top: 10px;">
+            <p class="text-justify">Some time frame should be give to indicate the activity of users. Starting left - bugs posted/processed/fixed per day,
+                mid - bugs posted/processed/fixed per week and same info on the right just per month.
+            </p>
+        </div>
+
+            <canvas id="Bug-status-bar-daily" class="col-xs-12 col-md-3 offset-md-1"></canvas>
+            <canvas id="Bug-status-bar-weekly" class="col-xs-12 col-md-3"></canvas>
+            <canvas id="Bug-status-bar-monthly" class="col-xs-12 col-md-3"></canvas>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js" type="text/javascript"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function () {
+                var dataArray = [
+                                 {{ bug_posted_total|safe }},
+                                 {{ bug_fixing_in_process_total|safe }},
+                                 {{ bug_bug_fixed_total|safe }},
+                                 {{ bug_all_total|safe }},
+                                 ]
+                var dataArrayPie = [
+                                 {{ bug_posted_total|safe }},
+                                 {{ bug_fixing_in_process_total|safe }},
+                                 {{ bug_bug_fixed_total|safe }}
+                                 ]
+
+                var dataDaily = [
+                                  {{ one_day_bug_posted|safe }},
+                                  {{ one_day_fixing_in_process|safe }},
+                                  {{ one_day_bug_fixed|safe }},
+                                  {{ one_day_all_bugs|safe }},
+                                  ]
+
+                var dataWeekly = [
+                                  {{ one_week_bug_posted|safe }},
+                                  {{ one_week_fixing_in_process|safe }},
+                                  {{ one_week_bug_fixed|safe }},
+                                  {{ one_week_all_bugs|safe }}
+                                  ]
+
+                var dataMonthly = [
+                                  {{ one_month_bug_posted|safe }},
+                                  {{ one_month_fixing_in_process|safe }},
+                                  {{ one_month_bug_fixed|safe }},
+                                  {{ one_month_all_bugs|safe }}
+                                  ]
+
+                var bgroundColors = [
+                                'rgba(255, 99, 132, 0.7)',
+                                'rgba(54, 162, 235, 0.7)',
+                                'rgba(255, 206, 86, 0.7)',
+                                'rgba(46, 204, 113, 0.7)',
+                            ]
+                var borderColors = [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(46, 204, 113, 1)',
+                            ]
+                var labelsArray = ['Posted', 'Pending', 'Fixed', 'All']
+                var ctx = document.getElementById('Bug-status-bar');
+                var ctx2 = document.getElementById('Bug-status-pie');
+                var ctx3 = document.getElementById('Bug-status-bar-monthly');
+                var ctx4 = document.getElementById('Bug-status-bar-weekly');
+                var ctx5 = document.getElementById('Bug-status-bar-daily');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsArray,
+                        datasets: [{
+                            label: 'Completion status numbers',
+                            data: dataArray,
+                            backgroundColor: bgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Status of completion (units)'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    suggestedMax: {{ bug_all_total|safe }},
+                                    stepSize: 1
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                var myChart2 = new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labelsArray,
+                        datasets: [{
+                            label: 'Total:',
+                            data: dataArrayPie,
+                            backgroundColor: bgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: 'Status of completion (percent)'
+                        },
+                        tooltips: {
+                            callbacks: {
+                                 label: function(tooltipItem, data) {
+                                            var dataset = data.datasets[tooltipItem.datasetIndex];
+                                            var meta = dataset._meta[Object.keys(dataset._meta)[0]];
+                                            var total = meta.total;
+                                            var currentValue = dataset.data[tooltipItem.index];
+                                            var percentage = parseFloat((currentValue/total*100).toFixed(1));
+                                            return currentValue + ' (' + percentage + '%)';
+                                        },
+                                    title: function(tooltipItem, data) {
+                                    return data.labels[tooltipItem[0].index];
+                                 }
+                            }
+                        },
+                    }
+                });
+                var myChart = new Chart(ctx3, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsArray,
+                        datasets: [{
+                            label: 'Completion status numbers',
+                            data: dataMonthly,
+                            backgroundColor: bgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Status of completion (monthly)'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    suggestedMax: {{ one_month_all_bugs|safe }},
+                                    stepSize: 1
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                var myChart = new Chart(ctx4, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsArray,
+                        datasets: [{
+                            label: 'Completion status numbers',
+                            data: dataWeekly,
+                            backgroundColor: bgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Status of completion (weekly)'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    suggestedMax: {{ one_week_all_bugs|safe }},
+                                    stepSize: 1
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                var myChart = new Chart(ctx5, {
+                    type: 'bar',
+                    data: {
+                        labels: labelsArray,
+                        datasets: [{
+                            label: 'Completion status numbers',
+                            data: dataDaily,
+                            backgroundColor: bgroundColors,
+                            borderColor: borderColors,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        legend: {
+                            display: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Status of completion (daily)'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    suggestedMax: {{ one_day_all_bugs|safe }},
+                                    stepSize: 1
+                                }
+                            }]
+                        }
+                    }
+                });
+            })
+        </script>
+    </div>
+</div>
+{% endblock %}

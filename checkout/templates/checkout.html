@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block head_js %}
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+    //<![CDATA[
+        Stripe.publishableKey = '{{ publishable }}';
+    //]>
+</script>
+<script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
+{% endblock %}
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-xs-12 col-md-8">
+            {% for items in cart_items %}
+                <div class="col-xs-10 col-md-6 col-lg-4 panel panel-display">
+                    <div class="panel-body">
+                        <div class="feature" style="background-image: url('{{ MEDIA_URL }} {{ item.feature.image }}' )">
+                            <h5>{{ item.feature.name }}</h5>
+                                <p>{{ item.feature.description }}</p>
+                                <p> {{ item.feature.price }}</p>
+                                <p> {{ item.quantity}} </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <h5>Your total price: {{ total }} EUR</h5>
+
+            <form role="form" method="post" id="payment-form" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <legend>Payment details</legend>
+                <div id="credit-card-errors">
+                    <div class="alert-message block-message error" id="stripe-error">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    {{ order_form | as_bootstrap }}
+                </div>
+                <div class="col-xs-12 col-md-6">
+                    {{ payment_form | as_bootstrap }}
+                </div>
+                <input type="submit" id="submit_payment_btn" name="commit" class="btn btn-primary" value="Purchase">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock features %}

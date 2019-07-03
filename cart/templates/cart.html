@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+<div class="container-fluid">
+    {% for item in cart_items %}
+    <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2">
+                <h3><strong>{{ item.feature.name }}</strong></h3>
+            <p>Price per item: <strong>{{ item.feature.price }}</strong> EUR for <strong>{{ item.quantity }}</strong>pcs</p>
+                <form method="post" action="{% url 'adjust_cart' item.id %}">
+                    {% csrf_token %}
+                    <input class="text-center item_add" name="quantity" type="number" min="0">
+                    <button class="btn-add" type="submit">Edit</button>
+                </form>
+                <hr>
+        </div>
+    </div>
+{% empty %}
+    <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2">
+                <p class="text-center">No items in a cart</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="container-fluid">
+    <div class="row total-price">
+        <div class="col-xs-12 col-md-8 offset-md-2">
+            <a href="{% url 'checkout' %}" class="btn btm-common-class btn-success" role="button">Checkout</a>
+            <h5>Total Price EUR: {{ total }}</h5>
+        </div>
+    </div>
+</div>
+    {% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+{% block page-title %}My Genius Thoughts{% endblock %}
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+{% if request.user.is_superuser %}
+    <div class="container-fluid">
+        <div class="col-xs-12 col-md-10 offset-md-1" style="margin-top: 10px;">
+            <a href="{% url 'new_post' %}" class="btn btm-common-class btn-success" role="button">New Post</a>
+        </div>
+    </div>
+{% endif %}
+
+{% for post in all_posts %}
+<div class="container-fluid">
+    <div class="col-xs-12 col-md-10 offset-md-1" style="margin-top: 10px;">
+        <h1>{{ post.title }}</h1>
+        <p>Posted by: {{ post.author }} on {{ post.date_posted }} </p>
+        <p class="text-justify" style="line-height: 1.7em;">{{ post.post_text|truncatewords:200 }}
+            <button class="btn-read-more">
+                <a class="common-link-class" href="{% url 'post_detail' post.id %}">Read more</a>
+            </button>
+        </p>
+        <p>Views: {{ post.views }}</p>
+        {% if request.user.is_superuser %}
+            <button style="margin-right: 10px" class="btn btn-bugs btn-primary"><a href="{% url 'post_edit' post.id %}">Edit</a></button>
+            <button class="btn-bugs btn btn-danger"><a href="{% url 'post_delete' post.id %}">Delete</a></button>
+        {% endif %}
+            <hr>
+    </div>
+</div>
+
+        {% empty %}
+<div class="container-fluid">
+    <div class="col-xs-12 col-md-10 offset-md-1" style="margin-top: 10px;">
+            <p>No blog posts posted yet</p>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

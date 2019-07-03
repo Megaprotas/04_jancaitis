@@ -1,0 +1,18 @@
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+<div class="container-fluid" style="margin-top: 20px;">
+    <div class="row">
+        <div class="feature-newest d-none d-sm-block ">
+            <div class="feature-pic" style="background-image: url('{{ MEDIA_URL }}{{ newest_feature.image }}')">
+                <h1 class="text-center">New arrivals: {{ newest_feature.name }} <small>for only {{ newest_feature.price }} EUR</small></h1>
+                <form class="text-center" method="POST" action="{% url 'add_to_cart' newest_feature.id %}">
+                    {% csrf_token %}
+                    <p>Quantity: <input class="text-center item_add" name="quantity" type="number" min="1" value="1"/>
+                        <button class="btn btn-add" type="submit" style="color: #ffffff">Don't think twice. Add it</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

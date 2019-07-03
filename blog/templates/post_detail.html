@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+{% block page-title %}My Genius Thoughts But In Detail{% endblock %}
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2" style="margin-top: 10px;">
+            <h3>{{ single_post.title }}</h3>
+                    <p><small>Posted by: {{ single_post.author }} on {{ single_post.date_posted }}</small></p>
+            <p class="text-justify" style="line-height: 1.7em">{{ single_post.post_text }}</p>
+            <p>Views: {{ single_post.views }}</p>
+            <button class="btn-bugs btn btn-primary"><a href="{% url 'post_all' %}">Back</a></button>
+            <hr>
+            {% for comment in single_post.comments.all %}
+                <p style="margin-bottom: 5px;"><small>Posted by {{ comment.author }} on {{ comment.date_commented }}</small></p>
+                <p class="text-justify">{{ comment.comment_text }}</p>
+                {% empty %}
+                    <p>There are no comments yet. Be the first</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2" style="margin-top: 10px;">
+            {% if user.is_authenticated %}
+                <h3>Leave a comment</h3>
+                <form method='POST'>
+                    {% csrf_token %}
+                    {{ form | as_bootstrap }}
+                    <button class="btn btn-bugs btn-success" style="margin-bottom: 10px;" type="submit">Submit</button>
+                </form>
+            {% else %}
+                    <p><a class="common-link-class" href="/accounts/register">Register</a>
+                        or
+                        <a class="common-link-class" href="/accounts/login">Log-in</a> to comment
+                    </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+{% block page-title %}Add/Edit the bug{% endblock %}
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-xs-12 col-md-8 addbug-form">
+            <form method="post">
+                {% csrf_token %}
+                {{ form | as_bootstrap }}
+                <button class="btn btn-bugs btn-success" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

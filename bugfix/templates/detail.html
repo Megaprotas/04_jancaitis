@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+{% block page-title %}Bug: detailed view {% endblock %}
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2">
+            <h5 style="margin-top: 10px;"><strong>{{ bug.bug_name }}</strong></h5>
+                <p><small>Posted by {{ bug.author }} on {{ bug.date_posted }}</small></p>
+
+                    {% if current_user_voted == false  and user.is_authenticated%}
+                        <a class="common-link-class" href="{% url 'vote' bug.id %}">Vote {{ bug.vote}}</a>
+                    {% else %}
+                        <p>You have already voted or you need to register to vote</p>
+                    {% endif %}
+
+                <p style="margin-top: 10px;"><strong>Description:</strong></p>
+                <p class="text-justify">{{ bug.bug_description }}</p>
+                <hr>
+            {% if bug.status == 'bug_fixed' %}
+                <p><strong>Solution:</strong></p>
+                <p class="text-justify">{{ bug.bug_solution }}</p>
+            {% endif %}
+
+            <ul class="nav justify-content-center">
+                {% if bug.status == 'bug_posted' and bug.author == request.user %}
+                <li class="btn-group nav-item">
+                    <button class="btn btn-bugs btn-primary"><a href="{% url 'edit_bug' bug.id %}">Edit</a></button>
+                </li>
+                <li class="btn-group nav-item">
+                    <button class="btn-bugs btn btn-danger"><a href="{% url 'delete_bug' bug.id %}">Delete</a></button>
+                </li>
+                <li class="btn-group nav-item">
+                    <button class="btn-bugs btn btn-success"><a href="{% url 'bugfix' %}">Back</a></button>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

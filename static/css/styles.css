@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+form {
+    width: 100%;
+    font-family: 'Quicksand', sans-serif;
+}
+
+message {
+    font-family: 'Quicksand', sans-serif;
+}
+
+.addbug-form {
+    margin-top: 10px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+p, h1, h2, h3, h4, h5, h6, a {
+    font-family: 'Quicksand', sans-serif;
+    line-height: 1.4em;
+}
+
+nav ul li a {
+    font-family: 'Quicksand', sans-serif;
+    color: #000000;
+}
+
+.nav-link:hover {
+    color: #808080;
+}
+
+.badge {
+    font-size: 10px;
+    padding: 5px;
+    background-color: #32CD32;
+    border-radius: 50%;
+}
+
+.common-link-class {
+    color: #000000;
+}
+
+.common-link-class:hover {
+    text-decoration: none;
+    color: #808080;
+}
+
+#hero-form {
+    background-image: url('../css/background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 550px;
+}
+
+.hero-mini-form {
+    margin-top: -20%;
+    color: #ffffff;
+}
+
+.hero-mini-form ul li {
+    list-style-type: circle;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 25px;
+    line-height: 1.7em;
+}
+
+.front-link {
+    color: #ffffff;
+}
+
+.front-link:hover {
+    color: #808080;
+    text-decoration: none;
+}
+
+#form-background {
+    padding: 15px;
+    background-color: #ffffff;
+    opacity: 0.9;
+    width: 40%;
+}
+
+.jumbotron {
+    background-color: transparent;
+}
+
+.jumbo-common {
+    color: #ffffff;
+}
+
+.jumbo-common-p {
+    color: #ffffff;
+}
+
+.page-heading {
+    color: #ffffff;
+}
+
+#search-background {
+    background-image: url('../css/background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 55px;
+}
+
+.search-input {
+    margin-left: 25px;
+    margin-top: 10px;
+    width: 40%;
+}
+
+.item_add {
+    width: 50px;
+}
+
+.btn-customised {
+    width: 100px;
+    border: solid;
+    border-radius: 0;
+    border-width: 2px;
+    border-color: #ffffff;
+    color: #ffffff;
+    margin-right: 10px;
+    background-color: transparent;
+}
+
+.btn-customised:hover {
+    border-color: #808080;
+    color: #ffffff;
+}
+
+.btn-add {
+    background-color: transparent;
+    color: #000000;
+    border-color: transparent;
+}
+
+.btm-common-class {
+    margin-bottom: 5px;
+    border-radius: 0;
+}
+
+.btn-bugs {
+    width: 100px;
+    border-radius: 0;
+    color: #ffffff;
+}
+
+.btn-bugs a {
+    color: #ffffff;
+}
+
+.btn-bugs a:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.btn-group {
+    margin-top: 10px;
+    margin-left: 10px;
+    height: 38px;
+}
+
+.btn-read-more {
+    border: none;
+    background-color: transparent;
+}
+
+.btn-mobile-menu {
+    width: 100%;
+    text-align: center;
+}
+
+.feature-main {
+    width: 43%;
+    margin-left: 5%;
+    color: #ffffff;
+    height: 250px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 30px;
+}
+
+.feature-newest {
+    width: 91%;
+    margin-left: 5%;
+    color: #ffffff;
+    height: 110px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 30px;
+}
+
+.feature-pic {
+    height: 100%;
+}
+
+.profile-pic {
+    height: 150px;
+    width: 150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 15px;
+}
+
+.feature-price {
+    padding-top: 5px;
+    margin-left: 10px;
+}
+
+.product-description {
+    font-size: 14px;
+    text-align: justify;
+    padding: 5px;
+    background: #ffffff;
+    opacity: 0.9;
+}
+
+.total-price {
+    margin-top: 10px;
+}
+
+.bug-posted h5 {
+    color: #ff1919;
+}
+
+.bug-in-process h5 {
+    color: #ffa500;
+}
+
+.bug-fixed h5 {
+    color: #004c00;
+}
+
+.bug-posted {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: justify;
+}
+
+.bug-in-process {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: justify;
+}
+
+.bug-fixed {
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: justify;
+}
+
+.about-us {
+    padding: 40px;
+}
+
+.about-us p {
+    line-height: 1.7em;
+}
+
+@media (max-width: 500px) {
+    #form-background {
+        width: 100%;
+    }
+    .feature-main {
+        width: 90%;
+        height: auto;
+    }
+    .search-input {
+        width: 60%;
+    }
+}

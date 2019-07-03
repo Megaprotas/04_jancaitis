@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+{% block page-title %}Bugs{% endblock %}
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+    {% if user.is_authenticated %}
+        <div class="container-fluid">
+            <div class="col-xs-12 col-md-10 offset-md-1" style="margin-top: 10px;">
+                <a style="margin-right: 10px" href="{% url 'new_bug' %}" class="btn btm-common-class btn-success" role="button">Post a Bug </a>
+                <a href="{% url 'graph' %}" class="btn btm-common-class btn-primary" role="button">Graphs</a>
+            </div>
+        </div>
+    {% endif %}
+
+<div class="container-fluid">
+    {% for bug in bugs %}
+        {% if bug.status == 'bug_fixed' %}
+            <div class="col-xs-12 col-md-10 offset-md-1 bug-fixed">
+                <h5 style="margin-top: 10px;"><strong>{{ bug.bug_name }}</strong> [Fixed]</h5>
+                <p><small>Posted by {{ bug.author }} on {{ bug.date_posted }}</small></p>
+                <p><strong>Description:</strong> {{ bug.bug_description|truncatewords:35 }}</p>
+                <p><strong>Solution:</strong> {{ bug.bug_solution|truncatewords:35 }}
+                    <button class="btn-read-more">
+                        <a class="common-link-class" href="{% url 'detail' bug.id %}">Read more</a>
+                    </button>
+                </p>
+                     {% if bug.author == request.user %}
+                            <button class="btn btn-bugs btn-primary"><a href="{% url 'edit_bug' bug.id %}">Edit</a></button>
+                     {% endif %}
+                <hr>
+            </div>
+        {% elif bug.status == 'fixing_in_process' %}
+            <div class="col-xs-12 col-md-10 offset-md-1 bug-in-process">
+                <h5 style="margin-top: 10px;"><strong>{{ bug.bug_name }}</strong> [In process]</h5>
+                <p><small>Posted by {{ bug.author }} on {{ bug.date_posted }}</small></p>
+                <p><strong>Description:</strong> {{ bug.bug_description|truncatewords:35 }}
+                    <button class="btn-read-more">
+                        <a class="common-link-class" href="{% url 'detail' bug.id %}">Read more</a>
+                    </button>
+                </p>
+                    {% if bug.author == request.user %}
+                            <button class="btn btn-bugs btn-primary"><a href="{% url 'edit_bug' bug.id %}">Edit</a></button>
+                    {% endif %}
+                <hr>
+            </div>
+         {% elif bug.status == 'bug_posted' %}
+            <div class="col-xs-12 col-md-10 offset-md-1 bug-posted">
+                <h5 style="margin-top: 10px;"><strong>{{ bug.bug_name }}</strong> [Just posted]</h5>
+                <p><small>Posted by {{ bug.author }} on {{ bug.date_posted }}</small></p>
+                <p><strong>Description:</strong> {{ bug.bug_description|truncatewords:35 }}
+                    <button class="btn-read-more">
+                        <a class="common-link-class" href="{% url 'detail' bug.id %}">Read more</a>
+                    </button>
+                </p>
+                    {% if bug.author == request.user %}
+                            <button style="margin-right: 10px" class="btn btn-bugs btn-primary"><a href="{% url 'edit_bug' bug.id %}">Edit</a></button>
+                            <button class="btn-bugs btn btn-danger"><a href="{% url 'delete_bug' bug.id %}">Delete</a></button>
+                    {% endif %}
+                <hr>
+            </div>
+        {% endif %}
+
+        {% empty %}
+    <div class="container-fluid">
+        <div class="col-xs-12 col-md-10 offset-md-1" style="margin-top: 10px;">
+            <p>No bugs posted yet. Be first one to do so!</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

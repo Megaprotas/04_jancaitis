@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+{% block page-title %}My Genius Thoughts But In Detail{% endblock %}
+
+{% block search %}
+<div class="container-fluid" id="search-background">
+    <form action="{% url 'search' %}" method="get">
+        <input class="search-input" type="text" name="q" placeholder="Find a feature">
+        <button class="btn-customised" type="submit">Search</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block features %}
+<h3>Leave a comment</h3>
+<form method='POST'>
+    {% csrf_token %}
+    {{ form | as_bootstrap }}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

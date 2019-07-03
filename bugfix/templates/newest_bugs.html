@@ -1,0 +1,17 @@
+{% load static from staticfiles %}
+{% load bootstrap_tags %}
+
+<div class="container-fluid" style="margin-top: 20px;">
+    <div class="row">
+        <div class="d-none d-sm-block col-md-10 offset-md-1 bug-posted">
+            <h1>Check out the newest posts:</h1>
+            <h5 style="margin-top: 10px;"><strong>{{ newest_bugs.bug_name }}</strong></h5>
+            <p><small>Posted by {{ newest_bugs.author }} on {{ newest_bugs.date_posted }}</small></p>
+            <p><strong>Description:</strong> {{ newest_bugs.bug_description|truncatewords:35 }}
+                    <button class="btn-read-more">
+                        <a class="common-link-class" href="{% url 'detail' newest_bugs.id %}">Read more</a>
+                    </button>
+                </p>
+        </div>
+    </div>
+</div>
