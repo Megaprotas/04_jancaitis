@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'milestone.wsgi.application'
 #    }
 #}
 
-if "DATABASES_URL" in os.environ:
+if "DATABASE_URL" in os.environ:
     DATABASES = {'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))}
 else:
     print('DB not found. Using local SQL')
