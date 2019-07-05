@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Megaprotas/04_jancaitis.svg?branch=master)](https://travis-ci.org/Megaprotas/04_jancaitis)
+
 BugHunters
 Project is dedicated to form a community of programmers or hobbyists who could paste the bug they stuggle and 
 I could solve the case (statistics of posted/in process/fixed will be provided). Also, more complex features would be
